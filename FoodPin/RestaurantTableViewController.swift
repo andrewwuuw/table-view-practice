@@ -88,12 +88,14 @@ class RestaurantTableViewController: UITableViewController {
             
         })
         
-        let checkMarkAction = UIAlertAction(title: "Check Mark", style: .default, handler: {
+        let cell = tableView.cellForRow(at: indexPath)
+        let isCellSelected = checkedList[indexPath.row]
+        let checkMarkActionTitle = isCellSelected ? "Cancel Chech Mark" : "Check Mark"
+        
+        let checkMarkAction = UIAlertAction(title: checkMarkActionTitle, style: .default, handler: {
             (action: UIAlertAction!) -> Void in
             
-            let cell = tableView.cellForRow(at: indexPath)
-            
-            if cell?.accessoryType == .checkmark {
+            if isCellSelected {
                 cell?.accessoryType = .none
                 self.checkedList[indexPath.row] = false
             } else {
