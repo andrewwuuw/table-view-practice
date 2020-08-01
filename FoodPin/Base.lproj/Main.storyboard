@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="W0Z-yi-ffG">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16097"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -57,15 +57,21 @@
                                                 </stackView>
                                             </subviews>
                                         </stackView>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart-tick" translatesAutoresizingMaskIntoConstraints="NO" id="k5O-Jg-x9N">
+                                            <rect key="frame" x="317" y="29.666666666666671" width="22" height="21"/>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottomMargin" secondItem="Kf2-7d-2a6" secondAttribute="bottom" id="4vX-B7-3vk"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Kf2-7d-2a6" secondAttribute="trailing" id="ANV-lB-hS6"/>
                                         <constraint firstItem="Kf2-7d-2a6" firstAttribute="top" secondItem="e7M-Of-cgs" secondAttribute="topMargin" id="AcW-fw-nae"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="k5O-Jg-x9N" secondAttribute="trailing" constant="20" id="MIp-he-pbG"/>
+                                        <constraint firstItem="k5O-Jg-x9N" firstAttribute="centerY" secondItem="e7M-Of-cgs" secondAttribute="centerY" id="cy0-al-LBK"/>
                                         <constraint firstItem="Kf2-7d-2a6" firstAttribute="leading" secondItem="e7M-Of-cgs" secondAttribute="leadingMargin" constant="6" id="jDo-VV-Ze4"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="heartTick" destination="k5O-Jg-x9N" id="503-eI-z1g"/>
                                     <outlet property="locationLabel" destination="Xbz-FL-3gh" id="qRl-Jp-2Ze"/>
                                     <outlet property="nameLabel" destination="HPv-gs-arb" id="uWE-0E-s3S"/>
                                     <outlet property="thumbnailImageView" destination="irt-5U-L81" id="YHZ-F9-uuh"/>
@@ -84,4 +90,7 @@
             <point key="canvasLocation" x="109.59999999999999" y="131.52709359605913"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="heart-tick" width="22" height="21"/>
+    </resources>
 </document>
