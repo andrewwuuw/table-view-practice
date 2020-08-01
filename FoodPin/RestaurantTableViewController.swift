@@ -9,32 +9,6 @@
 import UIKit
 
 class RestaurantTableViewController: UITableViewController {
-
-    var checkedList = Array(repeating: false, count: 21)
-
-    let restaurant = [
-        "楠梓區", "左營區", "鼓山區", "三民區", "鹽埕區", "前金區", "新興區",
-        "苓雅區", "前鎮區", "小港區", "旗津區", "鳳山區", "大寮區", "鳥松區",
-        "林園區", "仁武區", "大樹區", "大社區", "岡山區", "路竹區", "橋頭區"
-    ]
-
-    let restaurantLocation = [
-        "Tapiei", "Ilan", "Tainan", "Hualien", "RCA", "QAQ", "TXT. Re",
-        "Tapiei", "Ilan", "Tainan", "Hualien", "RCA", "QAQ", "TXT. Re",
-        "Tapiei", "Ilan", "Tainan", "Hualien", "RCA", "QAQ", "TXT. Re"
-    ]
-
-    let restaurantType = [
-        "Cafè", "Tea shop", "Thai", "4river", "ca-ca", "JP", "American",
-        "Cafè", "Tea shop", "Thai", "4river", "ca-ca", "JP", "American",
-        "Cafè", "Tea shop", "Thai", "4river", "ca-ca", "JP", "American"
-    ]
-
-    let restaurantImages = [
-        "barrafina", "bourkestreetbakery", "cafedeadend", "cafeloisl", "cafelore", "caskpubkitchen",
-        "confessional", "donostia", "fiveleaves", "forkeerestaurant", "grahamavenuemeats", "haighschocolate",
-        "homei", "palominoespresso", "petiteoyster", "posatelier", "royaloak", "teakha", "traif", "upstate", "wafflewolf"
-    ]
     
     override var prefersStatusBarHidden: Bool {
         true
@@ -49,12 +23,12 @@ class RestaurantTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "datacell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RestaurantTableViewCell
-
-        cell.nameLabel.text = restaurant[indexPath.row]
-        cell.locationLabel.text = restaurantLocation[indexPath.row]
-        cell.typeLabel.text = restaurantType[indexPath.row]
-        cell.thumbnailImageView.image = UIImage(named: restaurantImages[indexPath.row])
-        cell.heartTick.isHidden = !checkedList[indexPath.row]
+        
+        cell.nameLabel.text = RestaurantModel.restaurant[indexPath.row]
+        cell.locationLabel.text = RestaurantModel.restaurantLocation[indexPath.row]
+        cell.typeLabel.text = RestaurantModel.restaurantType[indexPath.row]
+        cell.thumbnailImageView.image = UIImage(named: RestaurantModel.restaurantImages[indexPath.row])
+        cell.heartTick.isHidden = !RestaurantModel.checkedList[indexPath.row]
 
         return cell
     }
@@ -66,14 +40,13 @@ class RestaurantTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return restaurant.count
+        return RestaurantModel.restaurant.count
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //MARK: - Phone alert
+        
         let optionMenu = UIAlertController(title: nil, message: "What do you want to do?", preferredStyle: .actionSheet)
         
-        //MARK: - Pad alert
         if let popoverController = optionMenu.popoverPresentationController,
             let cell = tableView.cellForRow(at: indexPath) {
             popoverController.sourceView = cell
@@ -90,7 +63,7 @@ class RestaurantTableViewController: UITableViewController {
 
         })
 
-        let isCellSelected = checkedList[indexPath.row]
+        let isCellSelected = RestaurantModel.checkedList[indexPath.row]
         
         let checkMarkActionTitle = isCellSelected ? "Cancel Check Mark" : "Check Mark"
         let checkMarkAction = UIAlertAction(title: checkMarkActionTitle, style: .default, handler: {
@@ -98,8 +71,8 @@ class RestaurantTableViewController: UITableViewController {
 
             let cell = tableView.cellForRow(at: indexPath) as? RestaurantTableViewCell
             
-            cell?.heartTick.isHidden = self.checkedList[indexPath.row]
-            self.checkedList[indexPath.row] = self.checkedList[indexPath.row] ? false : true
+            cell?.heartTick.isHidden = RestaurantModel.checkedList[indexPath.row]
+            RestaurantModel.checkedList[indexPath.row] = RestaurantModel.checkedList[indexPath.row] ? false : true
 
         })
 
@@ -108,6 +81,50 @@ class RestaurantTableViewController: UITableViewController {
         optionMenu.addAction(cancelAction)
         present(optionMenu, animated: true, completion: nil)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {
+            (action, sourceView, CompletionHandler) in
+            
+            RestaurantModel.restaurant.remove(at: indexPath.row)
+            RestaurantModel.restaurantLocation.remove(at: indexPath.row)
+            RestaurantModel.restaurantType.remove(at: indexPath.row)
+            RestaurantModel.checkedList.remove(at: indexPath.row)
+            RestaurantModel.restaurantImages.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            CompletionHandler(true)
+            
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: "Share") {
+            (action, sourceView, CompletionHandler) in
+            
+            let defaultText = "Just check in at \(RestaurantModel.restaurant[indexPath.row])"
+            guard let imageToShare = UIImage(named: RestaurantModel.restaurantImages[indexPath.row]) else { return }
+            let activityController = UIActivityViewController(activityItems: [defaultText, imageToShare], applicationActivities: nil)
+            
+            if let popoverController = activityController.popoverPresentationController,
+                let cell = tableView.cellForRow(at: indexPath) {
+                popoverController.sourceView = cell
+                popoverController.sourceRect = cell.bounds
+            }
+            
+            self.present(activityController, animated: true, completion: nil)
+            CompletionHandler(true)
+            
+        }
+        
+        let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        
+        deleteAction.backgroundColor = UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 1)
+        deleteAction.image = UIImage(systemName: "trash")
+        
+        shareAction.backgroundColor = UIColor(red: 254/255, green: 149/255, blue: 38/255, alpha: 1)
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        return swipeConfiguration
     }
     
 }
