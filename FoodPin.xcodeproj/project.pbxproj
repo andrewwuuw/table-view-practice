@@ -65,6 +65,7 @@
 		657A833F24D306C500AAC704 /* FoodPin */ = {
 			isa = PBXGroup;
 			children = (
+				65EEBB6E24D6A64D001419A7 /* Storyboard */,
 				65E210F324D6858C00B73B17 /* Model */,
 				65E210F424D6859900B73B17 /* Controller */,
 				65E210F524D685A500B73B17 /* View */,
@@ -97,8 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				657A835624D44D7C00AAC704 /* RestaurantTableViewCell.swift */,
-				657A834624D306C500AAC704 /* Main.storyboard */,
-				657A834B24D306C900AAC704 /* LaunchScreen.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -108,6 +107,15 @@
 			children = (
 			);
 			path = Demo;
+			sourceTree = "<group>";
+		};
+		65EEBB6E24D6A64D001419A7 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				657A834624D306C500AAC704 /* Main.storyboard */,
+				657A834B24D306C900AAC704 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

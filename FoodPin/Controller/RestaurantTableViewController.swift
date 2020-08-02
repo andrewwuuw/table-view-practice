@@ -10,88 +10,82 @@ import UIKit
 
 class RestaurantTableViewController: UITableViewController {
 
-    override var prefersStatusBarHidden: Bool {
-        true
-    }
+    var restaurants: [Restaurant] = [
+        Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "Hong Kong", image: "cafedeadend", isVisited: false),
+        Restaurant(name: "Homei", type: "Cafe", location: "Hong Kong", image: "homei", isVisited: false),
+        Restaurant(name: "Teakha", type: "Tea House", location: "Hong Kong", image: "teakha", isVisited: false),
+        Restaurant(name: "Cafe loisl", type: "Austrian / Causual Drink", location: "Hong Kong", image: "cafeloisl", isVisited: false),
+        Restaurant(name: "Petite Oyster", type: "French", location: "Hong Kong", image: "petiteoyster", isVisited: false),
+        Restaurant(name: "For Kee Restaurant", type: "Bakery", location: "Hong Kong", image: "forkeerestaurant", isVisited: false),
+        Restaurant(name: "Po's Atelier", type: "Bakery", location: "Hong Kong", image: "posatelier", isVisited: false),
+        Restaurant(name: "Bourke Street Backery", type: "Chocolate", location: "Sydney", image: "bourkestreetbakery", isVisited: false),
+        Restaurant(name: "Haigh's Chocolate", type: "Cafe", location: "Sydney", image: "haighschocolate", isVisited: false),
+        Restaurant(name: "Palomino Espresso", type: "American / Seafood", location: "Sydney", image: "palominoespresso", isVisited: false),
+        Restaurant(name: "Upstate", type: "American", location: "New York", image: "upstate", isVisited: false),
+        Restaurant(name: "Traif", type: "American", location: "New York", image: "traif", isVisited: false),
+        Restaurant(name: "Graham Avenue Meats", type: "Breakfast & Brunch", location: "New York", image: "grahamavenuemeats", isVisited: false),
+        Restaurant(name: "Waffle & Wolf", type: "Coffee & Tea", location: "New York", image: "wafflewolf", isVisited: false),
+        Restaurant(name: "Five Leaves", type: "Coffee & Tea", location: "New York", image: "fiveleaves", isVisited: false),
+        Restaurant(name: "Cafe Lore", type: "Latin American", location: "New York", image: "cafelore", isVisited: false),
+        Restaurant(name: "Confessional", type: "Spanish", location: "New York", image: "confessional", isVisited: false),
+        Restaurant(name: "Barrafina", type: "Spanish", location: "London", image: "barrafina", isVisited: false),
+        Restaurant(name: "Donostia", type: "Spanish", location: "London", image: "donostia", isVisited: false),
+        Restaurant(name: "Royal Oak", type: "British", location: "London", image: "royaloak", isVisited: false),
+        Restaurant(name: "CASK Pub and Kitchen", type: "Thai", location: "London", image: "caskpubkitchen", isVisited: false)
+    ]
 
+    //MARK: - View controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.cellLayoutMarginsFollowReadableWidth = true
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        if self.view.window == nil {
+            self.view = nil
+        }
+    }
+
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showRestaurantDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! RastaurantDetailViewController
-                destinationController.restaurantImageName = RestaurantModel.restaurantImages[indexPath.row]
-                destinationController.restaurantName = RestaurantModel.restaurant[indexPath.row]
-                destinationController.restaurantLocation = RestaurantModel.restaurantLocation[indexPath.row]
-                destinationController.restaurantType = RestaurantModel.restaurantType[indexPath.row]
+                destinationController.restaurant = restaurants[indexPath.row]
             }
         }
     }
 
     // MARK: - Table view data source
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = "datacell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RestaurantTableViewCell
-
-        cell.nameLabel.text = RestaurantModel.restaurant[indexPath.row]
-        cell.locationLabel.text = RestaurantModel.restaurantLocation[indexPath.row]
-        cell.typeLabel.text = RestaurantModel.restaurantType[indexPath.row]
-        cell.thumbnailImageView.image = UIImage(named: RestaurantModel.restaurantImages[indexPath.row])
-        cell.heartTick.isHidden = !RestaurantModel.checkedList[indexPath.row]
-
-        return cell
-    }
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return RestaurantModel.restaurant.count
+        return restaurants.count
     }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellIdentifier = "datacell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RestaurantTableViewCell
 
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let optionMenu = UIAlertController(title: nil, message: "What do you want to do?", preferredStyle: .actionSheet)
-//
-//        if let popoverController = optionMenu.popoverPresentationController,
-//            let cell = tableView.cellForRow(at: indexPath) {
-//            popoverController.sourceView = cell
-//            popoverController.sourceRect = cell.bounds
-//        }
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//        let callAction = UIAlertAction(title: "Call" + "0800-009-\(indexPath.row)", style: .default, handler: {
-//            (action: UIAlertAction!) -> Void in
-//
-//            let alertMessage = UIAlertController(title: "Service Unavailable", message: "Sorry, the call feature isn't available yet. Please retry later.", preferredStyle: .alert)
-//            alertMessage.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//            self.present(alertMessage, animated: true, completion: nil)
-//
-//        })
-//
-//        optionMenu.addAction(callAction)
-//        optionMenu.addAction(cancelAction)
-//        present(optionMenu, animated: true, completion: nil)
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
+        cell.nameLabel.text = restaurants[indexPath.row].name
+        cell.locationLabel.text = restaurants[indexPath.row].location
+        cell.typeLabel.text = restaurants[indexPath.row].type
+        cell.thumbnailImageView.image = UIImage(named: restaurants[indexPath.row].image)
+        cell.heartTick.isHidden = !restaurants[indexPath.row].isVisited
+
+        return cell
+    }
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {
             (action, sourceView, CompletionHandler) in
 
-            RestaurantModel.restaurant.remove(at: indexPath.row)
-            RestaurantModel.restaurantLocation.remove(at: indexPath.row)
-            RestaurantModel.restaurantType.remove(at: indexPath.row)
-            RestaurantModel.checkedList.remove(at: indexPath.row)
-            RestaurantModel.restaurantImages.remove(at: indexPath.row)
-
+            self.restaurants.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             CompletionHandler(true)
 
@@ -100,8 +94,8 @@ class RestaurantTableViewController: UITableViewController {
         let shareAction = UIContextualAction(style: .normal, title: "Share") {
             (action, sourceView, completionHandler) in
 
-            let defaultText = "Just check in at \(RestaurantModel.restaurant[indexPath.row])"
-            guard let imageToShare = UIImage(named: RestaurantModel.restaurantImages[indexPath.row]) else { return }
+            let defaultText = "Just check in at \(self.restaurants[indexPath.row].name)"
+            guard let imageToShare = UIImage(named: self.restaurants[indexPath.row].image) else { return }
             let activityController = UIActivityViewController(activityItems: [defaultText, imageToShare], applicationActivities: nil)
 
             if let popoverController = activityController.popoverPresentationController,
@@ -127,7 +121,7 @@ class RestaurantTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let isCellSelected = RestaurantModel.checkedList[indexPath.row]
+        let isCellSelected = restaurants[indexPath.row].isVisited
         let checkMarkActionTitle = isCellSelected ? "arrow.counterclockwise" : "checkmark"
 
         let checkMarkAction = UIContextualAction(style: .normal, title: checkMarkActionTitle) {
@@ -135,8 +129,8 @@ class RestaurantTableViewController: UITableViewController {
 
             let cell = tableView.cellForRow(at: indexPath) as? RestaurantTableViewCell
 
-            cell?.heartTick.isHidden = RestaurantModel.checkedList[indexPath.row]
-            RestaurantModel.checkedList[indexPath.row] = RestaurantModel.checkedList[indexPath.row] ? false : true
+            cell?.heartTick.isHidden = isCellSelected
+            self.restaurants[indexPath.row].isVisited = isCellSelected ? false : true
 
             completionHandler(true)
 
@@ -144,7 +138,7 @@ class RestaurantTableViewController: UITableViewController {
 
         checkMarkAction.backgroundColor = UIColor(red: 38 / 255, green: 191 / 255, blue: 41 / 255, alpha: 75 / 255)
         checkMarkAction.image = UIImage(systemName: checkMarkActionTitle)
-        
+
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [checkMarkAction])
         return swipeConfiguration
     }
