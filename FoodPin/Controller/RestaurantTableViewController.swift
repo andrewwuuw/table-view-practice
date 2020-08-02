@@ -19,6 +19,19 @@ class RestaurantTableViewController: UITableViewController {
         tableView.cellLayoutMarginsFollowReadableWidth = true
         navigationController?.navigationBar.prefersLargeTitles = true
     }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showRestaurantDetail" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let destinationController = segue.destination as! RastaurantDetailViewController
+                destinationController.restaurantImageName = RestaurantModel.restaurantImages[indexPath.row]
+                destinationController.restaurantName = RestaurantModel.restaurant[indexPath.row]
+                destinationController.restaurantLocation = RestaurantModel.restaurantLocation[indexPath.row]
+                destinationController.restaurantType = RestaurantModel.restaurantType[indexPath.row]
+            }
+        }
+    }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -44,30 +57,30 @@ class RestaurantTableViewController: UITableViewController {
         return RestaurantModel.restaurant.count
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let optionMenu = UIAlertController(title: nil, message: "What do you want to do?", preferredStyle: .actionSheet)
-
-        if let popoverController = optionMenu.popoverPresentationController,
-            let cell = tableView.cellForRow(at: indexPath) {
-            popoverController.sourceView = cell
-            popoverController.sourceRect = cell.bounds
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let callAction = UIAlertAction(title: "Call" + "0800-009-\(indexPath.row)", style: .default, handler: {
-            (action: UIAlertAction!) -> Void in
-
-            let alertMessage = UIAlertController(title: "Service Unavailable", message: "Sorry, the call feature isn't available yet. Please retry later.", preferredStyle: .alert)
-            alertMessage.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alertMessage, animated: true, completion: nil)
-
-        })
-
-        optionMenu.addAction(callAction)
-        optionMenu.addAction(cancelAction)
-        present(optionMenu, animated: true, completion: nil)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let optionMenu = UIAlertController(title: nil, message: "What do you want to do?", preferredStyle: .actionSheet)
+//
+//        if let popoverController = optionMenu.popoverPresentationController,
+//            let cell = tableView.cellForRow(at: indexPath) {
+//            popoverController.sourceView = cell
+//            popoverController.sourceRect = cell.bounds
+//        }
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        let callAction = UIAlertAction(title: "Call" + "0800-009-\(indexPath.row)", style: .default, handler: {
+//            (action: UIAlertAction!) -> Void in
+//
+//            let alertMessage = UIAlertController(title: "Service Unavailable", message: "Sorry, the call feature isn't available yet. Please retry later.", preferredStyle: .alert)
+//            alertMessage.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//            self.present(alertMessage, animated: true, completion: nil)
+//
+//        })
+//
+//        optionMenu.addAction(callAction)
+//        optionMenu.addAction(cancelAction)
+//        present(optionMenu, animated: true, completion: nil)
+//        tableView.deselectRow(at: indexPath, animated: true)
+//    }
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {
