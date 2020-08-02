@@ -30,6 +30,7 @@
 		657A835624D44D7C00AAC704 /* RestaurantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewCell.swift; sourceTree = "<group>"; };
 		65E210F124D5394B00B73B17 /* RestaurantModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantModel.swift; sourceTree = "<group>"; };
 		65E210F824D6861800B73B17 /* RastaurantDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RastaurantDetailViewController.swift; sourceTree = "<group>"; };
+		65EEBB6A24D69672001419A7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +47,8 @@
 		657A833424D306C500AAC704 = {
 			isa = PBXGroup;
 			children = (
+				65EEBB6A24D69672001419A7 /* README.md */,
+				65EEBB6B24D696A2001419A7 /* Demo */,
 				657A833F24D306C500AAC704 /* FoodPin */,
 				657A833E24D306C500AAC704 /* Products */,
 			);
@@ -98,6 +101,13 @@
 				657A834B24D306C900AAC704 /* LaunchScreen.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		65EEBB6B24D696A2001419A7 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Demo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
